@@ -10,4 +10,4 @@ TruthWeb is a lightweight browser interface built with HTML, CSS, and JavaScript
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/TruthWeb-Browser.git
+   https://github.com/ReimagineTruth/TruthWeb-Browser.git
