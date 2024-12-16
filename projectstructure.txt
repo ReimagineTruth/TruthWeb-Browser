@@ -1,0 +1,10 @@
+project/
+│
+├── index.html        # Main HTML file
+├── assets/           # Folder for static assets
+│   ├── css/          # CSS files
+│   │   └── styles.css
+│   ├── js/           # JavaScript files
+│   │   └── script.js
+│   └── fonts/        # Fonts (if needed)
+└── README.md         # Documentation
