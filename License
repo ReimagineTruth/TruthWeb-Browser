@@ -1,0 +1,9 @@
+
+---
+
+### **6. Commit and Push the Changes**
+
+```bash
+git add .
+git commit -m "Initial setup for TruthWeb Browser"
+git push origin main
