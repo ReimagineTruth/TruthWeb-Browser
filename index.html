@@ -27,6 +27,9 @@
                 <button id="forward-btn" class="text-gray-300 hover:text-white"><i class="fas fa-arrow-right"></i></button>
                 <button id="reload-btn" class="text-gray-300 hover:text-white"><i class="fas fa-redo"></i></button>
                 <button id="home-btn" class="text-gray-300 hover:text-white"><i class="fas fa-home"></i></button>
+                <button id="stop-btn" class="text-gray-300 hover:text-white"><i class="fas fa-stop"></i></button>
+                <button id="bookmark-btn" class="text-gray-300 hover:text-white"><i class="fas fa-bookmark"></i></button>
+                <button id="settings-btn" class="text-gray-300 hover:text-white"><i class="fas fa-cog"></i></button>
             </div>
             <input id="url-bar" type="text" class="w-full max-w-lg px-4 py-2 border rounded-md bg-gray-800 border-gray-600 placeholder-gray-400 text-white" placeholder="Enter URL">
         </div>
@@ -62,6 +65,18 @@
 
         document.getElementById('home-btn').addEventListener('click', function() {
             document.getElementById('browser-frame').src = 'http://programming-hero.com';
+        });
+
+        document.getElementById('stop-btn').addEventListener('click', function() {
+            document.getElementById('browser-frame').contentWindow.stop();
+        });
+
+        document.getElementById('bookmark-btn').addEventListener('click', function() {
+            alert('Bookmark added: ' + document.getElementById('browser-frame').contentWindow.location.href);
+        });
+
+        document.getElementById('settings-btn').addEventListener('click', function() {
+            alert('Settings clicked');
         });
 
         document.getElementById('url-bar').addEventListener('keypress', function(e) {
