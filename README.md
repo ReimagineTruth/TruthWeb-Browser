@@ -1,16 +1,13 @@
 # TruthWeb Browser
-
-A simple web browser built using Python and PyQt5.
+TruthWeb is a lightweight browser interface built with HTML, CSS, and JavaScript. It features a URL bar, embedded web page viewer, theme switching, and more.
 
 ## Features
-
-- Back, Forward, Reload, and Home buttons.
-- URL bar to navigate to custom URLs.
+- URL/Search bar with Google search fallback
+- Embedded iframe-based web page viewer
+- Dark/Light theme toggle
+- Navigation drawer and footer controls
 
 ## Installation
-
-1. **Clone the repository**:
-
+1. Clone the repository:
    ```bash
-   git clone https://github.com/ReimagineTruth/truthweb.browser.git
-   cd truthweb.browser
+   git clone https://github.com/your-username/TruthWeb-Browser.git
