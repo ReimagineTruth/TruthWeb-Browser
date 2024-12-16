@@ -1,13 +1,13 @@
 # TruthWeb Browser
-TruthWeb is a lightweight browser interface built with HTML, CSS, and JavaScript. It features a URL bar, embedded web page viewer, theme switching, and more.
+
+A dynamic browser interface built with TailwindCSS, FontAwesome, and vanilla JavaScript.
 
 ## Features
-- URL/Search bar with Google search fallback
-- Embedded iframe-based web page viewer
-- Dark/Light theme toggle
-- Navigation drawer and footer controls
+- Theme toggle (dark/light).
+- URL bar with auto-navigation.
+- Integrated search engine (Google).
+- Interactive side drawer and modals.
 
-## Installation
-1. Clone the repository:
-   ```bash
-   https://github.com/ReimagineTruth/TruthWeb-Browser.git
+## How to Run
+1. Clone the repository.
+2. Open `index.html` in any modern web browser.
