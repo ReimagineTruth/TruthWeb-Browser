@@ -10,17 +10,145 @@
         body {
             font-family: 'Roboto', sans-serif;
         }
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .floating {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            background-color: var(--bg-color);
+        }
+        :root {
+            --bg-color: #000000; /* Black */
+            --text-color: #FFFFFF; /* White */
+            --input-bg-color: #333333; /* Dark Gray */
+            --input-border-color: #555555; /* Gray */
+            --placeholder-color: #AAAAAA; /* Light Gray */
+        }
+        [data-theme="light"] {
+            --bg-color: #FFFFFF; /* White */
+            --text-color: #000000; /* Black */
+            --input-bg-color: #DDDDDD; /* Light Gray */
+            --input-border-color: #BBBBBB; /* Gray */
+            --placeholder-color: #555555; /* Dark Gray */
+        }
+        .recommendations {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--input-bg-color);
+            border: 1px solid var(--input-border-color);
+            border-radius: 0 0 12px 12px;
+            z-index: 10;
+        }
+        .recommendations a {
+            display: block;
+            padding: 8px 16px;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        .recommendations a:hover {
+            background-color: var(--input-border-color);
+        }
+        .drawer {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .drawer-open {
+            transform: translateX(0);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 500px;
+            animation: slideIn 0.3s ease-in-out;
+            position: relative;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .close {
+            color: var(--text-color);
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #aaa;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .menu-item {
+            transition: transform 0.2s ease-in-out;
+        }
+        .menu-item:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
-<body class="bg-black text-white">
+<body class="bg-black text-white fade-in" data-theme="dark">
 
     <header class="bg-black text-white py-4">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold">TruthWeb Browser</h1>
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
+            <div class="flex items-center space-x-4">
+                <button id="menuButton" class="text-gray-300 hover:text-white"><i class="fas fa-bars"></i></button>
+                <h1 class="text-2xl font-bold">TruthWeb Browser</h1>
+            </div>
+            <div class="relative w-full max-w-lg">
+                <input id="url-bar" type="text" class="w-full px-4 py-2 border rounded-full bg-gray-700 border-gray-600 placeholder-gray-400 text-white floating pl-10" placeholder="Enter URL or Search" value="http://google.com">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="recommendations" class="recommendations">
+                    <a href="https://www.google.com">Google</a>
+                    <a href="https://www.youtube.com">YouTube</a>
+                    <a href="https://www.facebook.com">Facebook</a>
+                    <a href="https://www.twitter.com">Twitter</a>
+                    <a href="https://www.instagram.com">Instagram</a>
+                </div>
+            </div>
         </div>
     </header>
 
-    <nav class="bg-black shadow-md">
+    <div id="browser" class="w-full h-[calc(100vh-8rem)] floating p-4">
+        <iframe id="browser-frame" src="http://google.com" class="w-full h-full border rounded-md border-gray-700"></iframe>
+    </div>
+
+    <footer class="bg-black shadow-md fade-in mt-4 fixed bottom-0 w-full">
         <div class="container mx-auto px-4 py-2 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
             <div class="flex items-center space-x-4">
                 <button id="back-btn" class="text-gray-300 hover:text-white"><i class="fas fa-arrow-left"></i></button>
@@ -30,64 +158,153 @@
                 <button id="stop-btn" class="text-gray-300 hover:text-white"><i class="fas fa-stop"></i></button>
                 <button id="bookmark-btn" class="text-gray-300 hover:text-white"><i class="fas fa-bookmark"></i></button>
                 <button id="settings-btn" class="text-gray-300 hover:text-white"><i class="fas fa-cog"></i></button>
+                <button id="theme-toggle" class="text-gray-300 hover:text-white"><i class="fas fa-adjust"></i></button>
             </div>
-            <input id="url-bar" type="text" class="w-full max-w-lg px-4 py-2 border rounded-md bg-gray-800 border-gray-600 placeholder-gray-400 text-white" placeholder="Enter URL">
-        </div>
-    </nav>
-
-    <div id="browser" class="container mx-auto mt-4">
-        <iframe id="browser-frame" src="http://google.com" class="w-full h-[calc(100vh-16rem)] border rounded-md border-gray-700"></iframe>
-    </div>
-
-    <footer class="bg-black text-gray-300 py-4 mt-4">
-        <div class="container mx-auto px-4 text-center">
-            <p>&copy; 2023 TruthWeb Browser. All rights reserved.</p>
-            <p>Follow us on 
-                <a href="#" class="text-blue-400 hover:underline">Twitter</a>, 
-                <a href="#" class="text-blue-400 hover:underline">Facebook</a>, and 
-                <a href="#" class="text-blue-400 hover:underline">Instagram</a>.
-            </p>
         </div>
     </footer>
 
+    <!-- Left Drawer (Main Navigation) -->
+    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-64 bg-[var(--bg-color)] text-[var(--text-color)] drawer transition-colors duration-300">
+        <div class="p-4 relative">
+            <button id="closeButton" class="text-[var(--text-color)] mb-4 icon absolute top-4 right-4">
+                <i class="fas fa-times text-xl sm:text-2xl"></i>
+            </button>
+            <ul>
+                <li class="mb-2"><a href="home.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-home mr-2"></i> Home</a></li>
+                <li class="mb-2"><a href="discover.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-globe mr-2"></i> Discover</a></li>
+                <li class="mb-2"><a href="newsfeed.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-bullhorn mr-2"></i> News Feed</a></li>
+                <li class="mb-2"><a href="groups.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-users mr-2"></i> Groups</a></li>
+                <li class="mb-2"><a href="messages.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-envelope mr-2"></i> Messages</a></li>
+                <li class="mb-2"><a href="analytics.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-chart-bar mr-2"></i> Analytics</a></li>
+                <li class="mb-2"><a href="settings.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-cog mr-2"></i> Settings</a></li>
+                <li class="mb-2"><a href="logout.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a></li>
+                <li class="mb-2">
+                    <button id="openModalButton" class="text-[var(--text-color)] p-2 block rounded menu-item w-full text-left flex items-center icon">
+                        <i class="fas fa-info-circle mr-2"></i> Info
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModalButton">&times;</span>
+            <h2>About TruthWeb</h2>
+            <p>TruthWeb is a cutting-edge platform dedicated to delivering accurate, real-time information to users worldwide. 📚 Our mission is to ensure that everyone has seamless access to verified and up-to-date truths, fostering a more informed and connected global community. 🌐</p>
+        </div>
+    </div>
+
     <script>
-        document.getElementById('back-btn').addEventListener('click', function() {
-            document.getElementById('browser-frame').contentWindow.history.back();
+        const menuButton = document.getElementById('menuButton');
+        const closeButton = document.getElementById('closeButton');
+        const menuDrawer = document.getElementById('menuDrawer');
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        const openModalButton = document.getElementById('openModalButton');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const infoModal = document.getElementById('infoModal');
+
+        // Function to apply the theme based on localStorage
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                body.classList.add('bg-black', 'text-white');
+                body.classList.remove('bg-white', 'text-black');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                body.classList.add('bg-white', 'text-black');
+                body.classList.remove('bg-black', 'text-white');
+            }
+        }
+
+        // Check localStorage for theme preference on page load
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        applyTheme(savedTheme);
+
+        menuButton.addEventListener('click', () => {
+            menuDrawer.classList.add('drawer-open');
         });
 
-        document.getElementById('forward-btn').addEventListener('click', function() {
-            document.getElementById('browser-frame').contentWindow.history.forward();
+        closeButton.addEventListener('click', () => {
+            menuDrawer.classList.remove('drawer-open');
         });
 
-        document.getElementById('reload-btn').addEventListener('click', function() {
-            document.getElementById('browser-frame').contentWindow.location.reload();
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
         });
 
-        document.getElementById('home-btn').addEventListener('click', function() {
-            document.getElementById('browser-frame').src = 'http://programming-hero.com';
+        openModalButton.addEventListener('click', () => {
+            infoModal.style.display = 'flex';
         });
 
-        document.getElementById('stop-btn').addEventListener('click', function() {
-            document.getElementById('browser-frame').contentWindow.stop();
+        closeModalButton.addEventListener('click', () => {
+            infoModal.style.display = 'none';
         });
 
-        document.getElementById('bookmark-btn').addEventListener('click', function() {
-            alert('Bookmark added: ' + document.getElementById('browser-frame').contentWindow.location.href);
+        window.addEventListener('click', (event) => {
+            if (event.target == infoModal) {
+                infoModal.style.display = 'none';
+            }
         });
 
-        document.getElementById('settings-btn').addEventListener('click', function() {
-            alert('Settings clicked');
+        document.getElementById('url-bar').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            const recommendations = document.getElementById('recommendations');
+            const links = recommendations.getElementsByTagName('a');
+            let hasMatch = false;
+
+            for (let i = 0; i < links.length; i++) {
+                const link = links[i];
+                if (link.textContent.toLowerCase().includes(query)) {
+                    link.style.display = 'block';
+                    hasMatch = true;
+                } else {
+                    link.style.display = 'none';
+                }
+            }
+
+            recommendations.style.display = hasMatch ? 'block' : 'none';
         });
 
         document.getElementById('url-bar').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                document.getElementById('browser-frame').src = e.target.value;
+                const query = e.target.value;
+                if (query.startsWith('http://') || query.startsWith('https://')) {
+                    document.getElementById('browser-frame').src = query;
+                } else {
+                    document.getElementById('browser-frame').src = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+                }
+                document.getElementById('recommendations').style.display = 'none';
             }
         });
 
         document.getElementById('browser-frame').addEventListener('load', function() {
             document.getElementById('url-bar').value = document.getElementById('browser-frame').contentWindow.location.href;
         });
+
+        // Sample Test
+        function runTest() {
+            const testUrl = 'https://www.example.com';
+            document.getElementById('url-bar').value = testUrl;
+            document.getElementById('url-bar').dispatchEvent(new KeyboardEvent('keypress', {'key': 'Enter'}));
+
+            setTimeout(() => {
+                const currentUrl = document.getElementById('browser-frame').contentWindow.location.href;
+                if (currentUrl === testUrl) {
+                    console.log('Test Passed: URL bar updates correctly.');
+                } else {
+                    console.log('Test Failed: URL bar did not update correctly.');
+                }
+            }, 3000); // Wait for 3 seconds to allow the page to load
+        }
+
+        window.onload = runTest;
     </script>
 
 </body>
